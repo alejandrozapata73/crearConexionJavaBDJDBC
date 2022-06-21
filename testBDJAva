@@ -1,0 +1,42 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+public class TestBD {
+    
+    public static void main(String[]args){
+    
+        var url="jdbc:mysql://localhost:3306/desafiobd2022?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+        
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TestBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+                
+            Connection conexion = DriverManager.getConnection(url,"root","");
+            Statement instruccion =  conexion.createStatement();
+            var sql = "SELECT id_empleados FROM empleados";
+            ResultSet resultado = instruccion.executeQuery(sql);
+            
+            while(resultado.next()){
+            
+                System.out.println("Id de usuario: " +resultado.getInt("id_empleados"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TestBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+}
